@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:templates="clr-namespace:SpendMAUI.Views.Templates"
+             xmlns:viewmodel="clr-namespace:SpendMAUI.ViewModels"
+             x:DataType="viewmodel:NoteSpendPageViewModel"
+             x:Class="SpendMAUI.Views.NoteSpendPage"
+             x:Name="SpentPage"
+             Title="收支记录">
+    <ContentPage.Resources>
+        <DataTemplate x:Key="EachSpend">
+            <templates:EachSpend/>
+        </DataTemplate>
+        <templates:TemplatesSelector
+            x:Key="TemplatesSelector"
+            EachSpend="{StaticResource EachSpend}">
+        </templates:TemplatesSelector>
+    </ContentPage.Resources>
+    <Grid>
+        <Button
+            Command="{Binding ReadyAddItemCommand}"
+            CommandParameter="{x:Reference SpentPage}"
+            Text="添加"
+            CornerRadius="50"
+            Margin="0,0,20,20"
+            VerticalOptions="End"
+            HorizontalOptions="End"
+            HeightRequest="60"
+            WidthRequest="60"
+            ZIndex="1"/>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.1*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <!--头部-->
+            <Grid
+            Grid.Row="0"
+            VerticalOptions="Start"
+            Padding="10">
+                <!--选择日期-->
+                <Border HorizontalOptions="Start"
+                    VerticalOptions="Center">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="10"/>
+                    </Border.StrokeShape>
+                    <DatePicker
+                    HeightRequest="50"
+                    WidthRequest="80"
+                    Date="2018-01-02"
+                    VerticalOptions="Center"/>
+                </Border>
+                <!--今日收支情况展示-->
+                <HorizontalStackLayout HorizontalOptions="End"
+                    VerticalOptions="Center">
+                    <Label
+                    Text="支出："/>
+                    <Label
+                    Margin="0,0,10,0"
+                    Text="15"/>
+                    <Label
+                    Text="收入："/>
+                    <Label
+                    Text="100"/>
+                </HorizontalStackLayout>
+            </Grid>
+            <!--信息展示-->
+            <Border
+            VerticalOptions="StartAndExpand"
+            Grid.Row="1">
+                <Border
+                StrokeShape="RoundRectangle 0,0,5,5"
+                StrokeThickness="0">
+                    <CollectionView
+                    x:Name="myCollectionView"
+                    ItemsSource="{Binding RAndSItems}"
+                    ItemTemplate="{StaticResource TemplatesSelector}"
+                    ItemsUpdatingScrollMode="KeepLastItemInView">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout
+                            Orientation="Vertical" />
+                        </CollectionView.ItemsLayout>
+                    </CollectionView>
+                </Border>
+            </Border>
+        </Grid>
+    </Grid>
+</ContentPage>

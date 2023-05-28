@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Shell xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+         xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+         xmlns:local="clr-namespace:SpendMAUI.Views"
+         Style="{StaticResource ShellStyle}"
+         xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+         ios:Page.UseSafeArea="true"
+        x:Class= "SpendMAUI.Views.MainPage">
+    <TabBar>
+        <Tab Title="收支记录" Icon="info">
+            <ShellContent ContentTemplate="{DataTemplate local:NoteSpendPage}" />
+        </Tab>
+        <Tab Title ="收支分析" Icon="browse">
+            <ShellContent ContentTemplate="{DataTemplate local:AnalyzeSpendPage}" />
+        </Tab>
+        <Tab Title="配置" Icon="scheduler">
+            <ShellContent ContentTemplate="{DataTemplate local:ConfigPage}" />
+        </Tab>
+    </TabBar>
+    <TabBar>
+    </TabBar>
+
+</Shell>
