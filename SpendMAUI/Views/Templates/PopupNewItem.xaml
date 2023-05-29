@@ -5,40 +5,61 @@
                xmlns:viewmodel="clr-namespace:SpendMAUI.ViewModels"
                x:Class="SpendMAUI.Views.Templates.PopupNewItem"
                x:DataType="viewmodel:NoteSpendPageViewModel"
-               Size=""
                Color="Transparent">
     <Border
-        WidthRequest="150"
-        HeightRequest="300"
+        MinimumWidthRequest="150"
+        MinimumHeightRequest="300"
         StrokeShape="RoundRectangle 5,5,5,5">
         <StackLayout
-            Margin="3">
+            Padding="50">
             <Label
                 Text="增加新收支"
                 FontSize="Large"
                 FontAttributes="Bold"
-                HorizontalOptions="Center" />
-            <Picker
-                x:Name="TypePicker"
-                SelectedItem="{Binding SelectTypeItem}"
-                ItemsSource="{Binding Type}"/>
+                HorizontalOptions="Center"
+                Margin="0,0,0,20"/>
+            <!--支出&收入单选按钮-->
+            <HorizontalStackLayout
+                HorizontalOptions="Center">
+                <Label 
+                    Text="支出"
+                    VerticalOptions="Center"/>
+                <RadioButton
+                    x:Name="outcomeBox"
+                    VerticalOptions="Center"
+                    RadioButtonGroup.GroupName="group"
+                    IsChecked="{Binding IsCheckOutCome, Mode=TwoWay}"
+                    Margin="0,0,10,0"/>
+                <Label 
+                    Text="收入"
+                    VerticalOptions="Center"/>
+                <RadioButton
+                    x:Name="incomeBox"
+                    VerticalOptions="Center"
+                    RadioButtonGroup.GroupName="group"
+                    IsChecked="{Binding IsCheckInCome, Mode=TwoWay}"/>
+            </HorizontalStackLayout>
             <Entry
                 x:Name="EntryName"
                 Placeholder="收支名称"
-                Text="{Binding ReadyItem.Name}"/>
+                Text="{Binding ReadyItem.Name}"
+                toolkit:SetFocusOnEntryCompletedBehavior.NextElement="{x:Reference EntryMoney}"/>
             <Entry
                 x:Name="EntryMoney"
                 Placeholder="描述"
-                Text="{Binding ReadyItem.Description}"/>
+                Text="{Binding ReadyItem.Description}"
+                toolkit:SetFocusOnEntryCompletedBehavior.NextElement="{x:Reference EntryType}"/>
             <Entry
                 x:Name="EntryType"
                 Placeholder="金额"
+                Keyboard="Numeric"
                 Text="{Binding ReadyItem.Money}"/>
             <Picker
-                x:Name="DetailTypePicker"
-                SelectedItem="{Binding SelectDetailTypeItem}"
-                ItemsSource="{Binding DetailType}"/>
+                ItemsSource="{Binding DetailType}"
+                SelectedItem="{Binding SelectDetailTypeItem}"/>
             <Button
+                WidthRequest="70"
+                Margin="0,20,0,0"
                 Command="{Binding AddItemCommand}"
                 Text="Save" />
         </StackLayout>

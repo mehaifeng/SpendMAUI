@@ -5,6 +5,10 @@ namespace SpendMAUI.Models
     public class Item
     {
         /// <summary>
+        /// 是否为收入
+        /// </summary>
+        public bool IsIncome { get; set; }
+        /// <summary>
         /// 收支名称
         /// </summary>
         public string Name { get; set; }
@@ -15,7 +19,7 @@ namespace SpendMAUI.Models
         /// <summary>
         /// 收支金额
         /// </summary>
-        public string Money { get; set; }
+        public decimal Money { get; set; }
 
     }
 }

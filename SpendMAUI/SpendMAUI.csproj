@@ -55,6 +55,7 @@
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Maui" Version="5.2.0" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.0" />
+		<PackageReference Include="Syncfusion.Maui.Inputs" Version="21.2.6" />
 		<TrimmableAssembly Include="DevExpress.Data.v22.2" />
 	</ItemGroup>
 
@@ -63,8 +64,11 @@
 	  <Compile Update="Views\ConfigPage.xaml.cs">
 	    <DependentUpon>ConfigPage.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Views\Templates\EachSpend.xaml.cs">
-	    <DependentUpon>EachSpend.xaml</DependentUpon>
+	  <Compile Update="Views\Templates\EachInCome.xaml.cs">
+	    <DependentUpon>EachInCome.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\Templates\EachOutCome.xaml.cs">
+	    <DependentUpon>EachOutCome.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
@@ -79,7 +83,10 @@
 	  <MauiXaml Update="Views\NoteSpendPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\Templates\EachSpend.xaml">
+	  <MauiXaml Update="Views\Templates\EachInCome.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Templates\EachOutCome.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Templates\PopupNewItem.xaml">

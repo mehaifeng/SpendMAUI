@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Grid xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-      x:Class="SpendMAUI.Views.Templates.EachSpend"
+      x:Class="SpendMAUI.Views.Templates.EachInCome"
       xmlns:model="clr-namespace:SpendMAUI.Models"
       x:DataType="model:Item">
     <Border
         HeightRequest="85"
-        BackgroundColor="AliceBlue">
+        BackgroundColor="#03c03c">
         <Border.StrokeShape>
-            <RoundRectangle CornerRadius="5"/>
+            <RoundRectangle CornerRadius="10"/>
         </Border.StrokeShape>
         <Grid>
             <Grid.RowDefinitions>
@@ -19,7 +19,8 @@
             <Grid Grid.Row="0">
                 <Label
                     Text="{Binding Name}"
-                    VerticalOptions="Center"/>
+                    Margin="10,0,0,0"
+                    VerticalOptions="CenterAndExpand"/>
                 <Label
                     Text="{Binding Money}"
                     FontSize="24"
@@ -31,10 +32,11 @@
             <Grid Grid.Row="1">
                 <Label
                     Text="xxxxxx"
+                    Margin="10,0,0,10"
                     VerticalOptions="Center"/>
                 <Label
                     Text="14:00"
-                    Margin="0,0,20,0"
+                    Margin="0,0,20,10"
                     HorizontalOptions="End"
                     VerticalOptions="Start"/>
             </Grid>

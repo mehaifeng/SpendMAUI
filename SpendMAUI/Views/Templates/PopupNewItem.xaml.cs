@@ -8,6 +8,5 @@ public partial class PopupNewItem : Popup
 	public PopupNewItem()
 	{
 		InitializeComponent();
-
     }
 }

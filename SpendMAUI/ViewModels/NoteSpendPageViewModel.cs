@@ -14,29 +14,10 @@ namespace SpendMAUI.ViewModels
 {
     public partial class NoteSpendPageViewModel:ObservableObject
     {
-        PopupNewItem popupNewItem;
+        #region 构造函数
         public NoteSpendPageViewModel()
         {
-            RAndSItems = new ObservableCollection<Item>
-            {
-                new Item{ Name = "buy some food", Money = "100" },
-                new Item{ Name = "buy some drink", Money = "200" },
-                new Item{ Name = "buy some clothes", Money = "300" },
-                new Item{ Name = "buy some shoes", Money = "400" },
-                new Item{ Name = "buy some books", Money = "500" },
-                new Item{ Name = "buy some pens", Money = "600" },
-                new Item{ Name = "buy some pencils", Money = "700" },
-                new Item{ Name = "buy some bags", Money = "800" },
-                new Item{ Name = "buy some hats", Money = "900" },
-                new Item{ Name = "buy some glasses", Money = "1000" },
-                new Item{ Name = "buy some toys", Money = "1100" },
-                new Item{ Name = "buy some games", Money = "1200" },
-            };
-            Type = new ObservableCollection<string>
-            {
-                "收入",
-                "支出"
-            };
+            RAndSItems = new ObservableCollection<Item>();
             DetailType = new ObservableCollection<string>
             {
                 "饮食",
@@ -47,65 +28,90 @@ namespace SpendMAUI.ViewModels
                 "教育",
                 "金融"
             };
-            SelectTypeItem = Type.First();
             SelectDetailTypeItem = DetailType.First();
+            if(RAndSItems.Count > 0)
+            {
+                OutComeMoney = RAndSItems.Where(x => x.IsIncome == true).Sum(x => x.Money).ToString();
+                InComeMoney = RAndSItems.Where(x => x.IsIncome == false).Sum(x => x.Money).ToString();
+            }
+            else
+            {
+                OutComeMoney = "0";
+                InComeMoney = "0";
+            }
         }
+        #endregion
+
+        #region 属性
+        public PopupNewItem popupNewItem;
         /// <summary>
         /// 收支项大集合
         /// </summary>
         [ObservableProperty]
         private ObservableCollection<Item> rAndSItems;
-
+        /// <summary>
+        /// 支出
+        /// </summary>
+        [ObservableProperty]
+        private string outComeMoney;
+        /// <summary>
+        /// 收入
+        /// </summary>
+        [ObservableProperty]
+        private string inComeMoney;
         /// <summary>
         /// 待添加的收支项(popup弹窗)
         /// </summary>
         [ObservableProperty]
         private Item readyItem = new();
-
-        /// <summary>
-        /// 开支还是收入
-        /// </summary>
-        [ObservableProperty]
-        private ObservableCollection<string> type;
         /// <summary>
         /// 收支的具体类型
         /// </summary>
         [ObservableProperty]
         private ObservableCollection<string> detailType;
         /// <summary>
-        /// 选择的收支类型
-        /// </summary>
-        [ObservableProperty]
-        private string selectTypeItem;
-        /// <summary>
         /// 选择的收支的具体类型
         /// </summary>
         [ObservableProperty]
         private string selectDetailTypeItem;
-
         /// <summary>
-        /// 点击【添加】待添加收支项
+        /// 是否是支出
         /// </summary>
-        /// <param name="e"></param>
-        [RelayCommand]
-        private void ReadyAddItem(ContentPage e)
-        {
-            popupNewItem = new();
-            ReadyItem = new();
-            e.ShowPopup(popupNewItem);
-        }
+        [ObservableProperty]
+        private bool isCheckOutCome = true;
+        /// <summary>
+        /// 是否是收入
+        /// </summary>
+        [ObservableProperty]
+        private bool isCheckInCome = false;
+        #endregion
 
+        #region 方法
+        /// <summary>
+        /// 添加收支项
+        /// </summary>
         [RelayCommand]
         private void AddItem()
         {
-            RAndSItems.Add(new Item
+            if(!string.IsNullOrEmpty(ReadyItem.Name) && decimal.IsPositive(ReadyItem.Money))
             {
-                Name = ReadyItem.Name,
-                Description = ReadyItem.Description,
-                Money = ReadyItem.Money,
-            });
-            popupNewItem.Close();
+                //如果是支出，金额置为负数
+                if (IsCheckOutCome)
+                {
+                    ReadyItem.Money = -ReadyItem.Money;
+                }
+                RAndSItems.Add(new Item
+                {
+                    IsIncome = IsCheckInCome,
+                    Name = ReadyItem.Name,
+                    Description = ReadyItem.Description,
+                    Money = ReadyItem.Money,
+                });
+                popupNewItem.Close();
+                InComeMoney = RAndSItems.Where(x => x.IsIncome == true).Sum(x => x.Money).ToString();
+                OutComeMoney = RAndSItems.Where(x => x.IsIncome == false).Sum(x => x.Money).ToString();
+            }
         }
-
+        #endregion
     }
 }

@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Maui;
 using SpendMAUI;
+using Syncfusion.Maui.Core.Hosting;
 
 public static class MauiProgram
 {
@@ -11,14 +12,13 @@ public static class MauiProgram
 			// Initialize the .NET MAUI Community Toolkit by adding the below line of code
 			.UseMauiCommunityToolkit()
 			// After initializing the .NET MAUI Community Toolkit, optionally add additional fonts
-			.ConfigureFonts(fonts =>
+            .ConfigureFonts(fonts =>
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 			});
 
 		// Continue initializing your .NET MAUI App here
-
 		return builder.Build();
 	}
 }

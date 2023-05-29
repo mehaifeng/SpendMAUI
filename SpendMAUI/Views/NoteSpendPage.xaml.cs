@@ -5,9 +5,18 @@ namespace SpendMAUI.Views;
 
 public partial class NoteSpendPage : ContentPage
 {
+    NoteSpendPageViewModel noteSpendPageViewModel;
     public NoteSpendPage()
 	{
 		InitializeComponent();
-		this.BindingContext = new NoteSpendPageViewModel();
+        noteSpendPageViewModel = new NoteSpendPageViewModel();
+        this.BindingContext = noteSpendPageViewModel;
+    }
+
+    private void OpenPopupBtn_Clicked(object sender, EventArgs e)
+    {
+        noteSpendPageViewModel.popupNewItem = new();
+        noteSpendPageViewModel.ReadyItem = new();
+        this.ShowPopup(noteSpendPageViewModel.popupNewItem);
     }
 }

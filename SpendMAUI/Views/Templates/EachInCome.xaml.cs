@@ -1,8 +1,8 @@
 namespace SpendMAUI.Views.Templates;
 
-public partial class EachSpend : Grid
+public partial class EachInCome : Grid
 {
-	public EachSpend()
+	public EachInCome()
 	{
 		InitializeComponent();
 	}
