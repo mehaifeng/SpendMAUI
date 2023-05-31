@@ -37,9 +37,13 @@
                     Padding="10">
                     <!--选择日期-->
                     <DatePicker
-                        Date="{Binding DateToday, Mode=TwoWay}"
+                        Date="{Binding SelectDate, Mode=TwoWay}"
                         HorizontalOptions="Start"
-                        VerticalOptions="Center"/>
+                        VerticalOptions="Center">
+                        <DatePicker.Behaviors>
+                            <toolkit:EventToCommandBehavior EventName="DateSelected" Command="{Binding SelectedDateCommand}"/>
+                        </DatePicker.Behaviors>
+                    </DatePicker>
                     <!--今日收支情况展示-->
                     <HorizontalStackLayout HorizontalOptions="End"
                             VerticalOptions="Center">
@@ -105,7 +109,7 @@
                         WidthRequest="60"/>
                     <Button
                         x:Name="OpenPopupBtn"
-                        Clicked="OpenPopupBtn_Clicked"
+                        Command="{Binding OpenPopupToAddCommand}"
                         CommandParameter="{x:Reference SpencePage}"
                         Background="#008000"
                         Text="添加"

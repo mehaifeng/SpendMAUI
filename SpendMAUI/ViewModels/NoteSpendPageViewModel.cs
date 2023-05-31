@@ -40,20 +40,23 @@ namespace SpendMAUI.ViewModels
                 ExpenseMoney = "0";
                 InComeMoney = "0";
             }
-            if (File.Exists(path))
+            string todaypath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), $"{DateTime.Now.Date:yyMMdd}.json");
+            if (File.Exists(todaypath))
             {
-                string jsonStr = File.ReadAllText(path);
+                string jsonStr = File.ReadAllText(todaypath);
                 RAndSItems = JsonConvert.DeserializeObject<ObservableCollection<Item>>(jsonStr);
             }
-            DateToday = DateOnly.FromDateTime(DateTime.Now);
+            SelectDate = DateTime.Now.Date;
         }
         #endregion
 
         #region 属性
-        public static string path = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), $"{DateOnly.FromDateTime(DateTime.Now)}.json");
         public PopupNewItem popupNewItem;
+        /// <summary>
+        /// 选择的日期
+        /// </summary>
         [ObservableProperty]
-        private DateOnly dateToday;
+        private DateTime selectDate;
         /// <summary>
         /// 收支项大集合
         /// </summary>
@@ -98,6 +101,17 @@ namespace SpendMAUI.ViewModels
 
         #region 方法
         /// <summary>
+        /// 打开Popup
+        /// </summary>
+        /// <param name="e"></param>
+        [RelayCommand]
+        private async void OpenPopupToAdd(ContentPage e)
+        {
+            ReadyItem = new Item();
+            popupNewItem = new PopupNewItem();
+            await e.ShowPopupAsync(popupNewItem);
+        }
+        /// <summary>
         /// 添加收支项
         /// </summary>
         [RelayCommand]
@@ -118,8 +132,26 @@ namespace SpendMAUI.ViewModels
             }
             SaveFile();
         }
+        /// <summary>
+        /// 选择日期操作
+        /// </summary>
+        [RelayCommand]
+        private async void SelectedDate()
+        {
+            RAndSItems = new ObservableCollection<Item>();
+            string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), $"{SelectDate:yyMMdd}.json");
+            if (File.Exists(path))
+            {
+                string jsonStr = await File.ReadAllTextAsync(path);
+                RAndSItems = JsonConvert.DeserializeObject<ObservableCollection<Item>>(jsonStr);
+            }
+        }
+        /// <summary>
+        /// 记录保存到文件
+        /// </summary>
         private async void SaveFile()
         {
+            var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), $"{SelectDate:yyMMdd}.json");
             string jsonStr = JsonConvert.SerializeObject(RAndSItems);
             await File.WriteAllTextAsync(path, jsonStr);
         }

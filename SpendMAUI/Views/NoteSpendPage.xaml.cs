@@ -12,11 +12,4 @@ public partial class NoteSpendPage : ContentPage
         noteSpendPageViewModel = new NoteSpendPageViewModel();
         this.BindingContext = noteSpendPageViewModel;
     }
-
-    private void OpenPopupBtn_Clicked(object sender, EventArgs e)
-    {
-        noteSpendPageViewModel.popupNewItem = new();
-        noteSpendPageViewModel.ReadyItem = new();
-        this.ShowPopup(noteSpendPageViewModel.popupNewItem);
-    }
 }
