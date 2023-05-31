@@ -55,6 +55,7 @@
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Maui" Version="5.2.0" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.0" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 		<PackageReference Include="Syncfusion.Maui.Inputs" Version="21.2.6" />
 		<TrimmableAssembly Include="DevExpress.Data.v22.2" />
 	</ItemGroup>

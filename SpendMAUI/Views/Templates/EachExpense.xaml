@@ -6,19 +6,21 @@
       x:DataType="model:Item">
     <Border
         HeightRequest="85"
-        BackgroundColor="AliceBlue">
+        BackgroundColor="#89cff0">
         <Border.StrokeShape>
             <RoundRectangle CornerRadius="10"/>
         </Border.StrokeShape>
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="0.7*"/>
-                <RowDefinition Height="0.3*"/>
+                <RowDefinition/>
+                <RowDefinition/>
             </Grid.RowDefinitions>
             <!--花费描述/金额-->
             <Grid Grid.Row="0">
                 <Label
                     Text="{Binding Name}"
+                    FontSize="20"
+                    Margin="10,0,0,0"
                     VerticalOptions="Center"/>
                 <Label
                     Text="{Binding Money}"
@@ -30,13 +32,14 @@
             <!--花费类型/时间-->
             <Grid Grid.Row="1">
                 <Label
-                    Text="xxxxxx"
+                    Text="{Binding Description}"
+                    Margin="10,0,0,10"
                     VerticalOptions="Center"/>
                 <Label
                     Text="14:00"
                     Margin="0,0,20,0"
                     HorizontalOptions="End"
-                    VerticalOptions="Start"/>
+                    VerticalOptions="Center"/>
             </Grid>
         </Grid>
     </Border>

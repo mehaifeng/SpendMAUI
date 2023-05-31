@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SpendMAUI.Models;
 using SpendMAUI.Views.Templates;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -39,11 +40,20 @@ namespace SpendMAUI.ViewModels
                 ExpenseMoney = "0";
                 InComeMoney = "0";
             }
+            if (File.Exists(path))
+            {
+                string jsonStr = File.ReadAllText(path);
+                RAndSItems = JsonConvert.DeserializeObject<ObservableCollection<Item>>(jsonStr);
+            }
+            DateToday = DateOnly.FromDateTime(DateTime.Now);
         }
         #endregion
 
         #region 属性
+        public static string path = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), $"{DateOnly.FromDateTime(DateTime.Now)}.json");
         public PopupNewItem popupNewItem;
+        [ObservableProperty]
+        private DateOnly dateToday;
         /// <summary>
         /// 收支项大集合
         /// </summary>
@@ -95,11 +105,6 @@ namespace SpendMAUI.ViewModels
         {
             if(!string.IsNullOrEmpty(ReadyItem.Name) && decimal.IsPositive(ReadyItem.Money))
             {
-                //如果是支出，金额置为负数
-                if (IsCheckExpense)
-                {
-                    ReadyItem.Money = -ReadyItem.Money;
-                }
                 RAndSItems.Add(new Item
                 {
                     IsIncome = IsCheckInCome,
@@ -111,6 +116,12 @@ namespace SpendMAUI.ViewModels
                 InComeMoney = RAndSItems.Where(x => x.IsIncome == true).Sum(x => x.Money).ToString();
                 ExpenseMoney = RAndSItems.Where(x => x.IsIncome == false).Sum(x => x.Money).ToString();
             }
+            SaveFile();
+        }
+        private async void SaveFile()
+        {
+            string jsonStr = JsonConvert.SerializeObject(RAndSItems);
+            await File.WriteAllTextAsync(path, jsonStr);
         }
         #endregion
     }

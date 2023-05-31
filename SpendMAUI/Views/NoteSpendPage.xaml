@@ -6,7 +6,7 @@
              xmlns:viewmodel="clr-namespace:SpendMAUI.ViewModels"
              x:DataType="viewmodel:NoteSpendPageViewModel"
              x:Class="SpendMAUI.Views.NoteSpendPage"
-             x:Name="SpentPage"
+             x:Name="SpencePage"
              Title="收支记录">
     <ContentPage.Resources>
         <DataTemplate x:Key="EachExpense">
@@ -29,15 +29,15 @@
             </Grid.RowDefinitions>
             <!--头部-->
             <Border
-                BackgroundColor="#e6e8fa"
+                BackgroundColor="#5d8aa8"
                 StrokeShape="RoundRectangle 10,10,10,10">
                 <Grid
                     Grid.Row="0"
-                    VerticalOptions="Start"
+                    VerticalOptions="Center"
                     Padding="10">
                     <!--选择日期-->
                     <DatePicker
-                        Date="2018-01-02"
+                        Date="{Binding DateToday, Mode=TwoWay}"
                         HorizontalOptions="Start"
                         VerticalOptions="Center"/>
                     <!--今日收支情况展示-->
@@ -72,54 +72,48 @@
                     <ColumnDefinition Width="0.8*"/>
                     <ColumnDefinition Width="0.2*"/>
                 </Grid.ColumnDefinitions>
-                <Border Grid.Column="0"
-                    StrokeShape="RoundRectangle 10,10,10,10"
-                    StrokeThickness="0">
-                    <CollectionView
-                        x:Name="myCollectionView"
-                        ItemsSource="{Binding RAndSItems}"
-                        ItemTemplate="{StaticResource TemplatesSelector}"
-                        ItemsUpdatingScrollMode="KeepLastItemInView">
-                        <CollectionView.ItemsLayout>
-                            <LinearItemsLayout
-                            Orientation="Vertical" />
-                        </CollectionView.ItemsLayout>
-                    </CollectionView>
-                </Border>
-                <Border Grid.Column="1"
-                        Padding="5"
-                        StrokeShape="RoundRectangle 10,10,10,10"
-                        BackgroundColor="#e6e8fa">
-                    <toolkit:UniformItemsLayout 
-                        MaxColumns="1"
-                        VerticalOptions="End">
-                        <Button
-                            CommandParameter="{x:Reference SpentPage}"
-                            Text="查找"
-                            CornerRadius="10"
-                            Margin="0,0,0,10"
-                            VerticalOptions="End"
-                            HeightRequest="60"
-                            WidthRequest="60"/>
-                        <Button
-                            CommandParameter="{x:Reference SpentPage}"
-                            Background="#007fff"
-                            Text="过滤"
-                            CornerRadius="10"
-                            Margin="0,0,0,10"
-                            HeightRequest="60"
-                            WidthRequest="60"/>
-                        <Button
-                            x:Name="OpenPopupBtn"
-                            Clicked="OpenPopupBtn_Clicked"
-                            CommandParameter="{x:Reference SpentPage}"
-                            Background="#008000"
-                            Text="添加"
-                            CornerRadius="10"
-                            HeightRequest="60"
-                            WidthRequest="60"/>
-                    </toolkit:UniformItemsLayout>
-                </Border>
+                <CollectionView
+                    Grid.Column="0"
+                    x:Name="myCollectionView"
+                    ItemsSource="{Binding RAndSItems}"
+                    ItemTemplate="{StaticResource TemplatesSelector}"
+                    ItemsUpdatingScrollMode="KeepLastItemInView">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout
+                        Orientation="Vertical" />
+                    </CollectionView.ItemsLayout>
+                </CollectionView>
+                <toolkit:UniformItemsLayout 
+                    Grid.Column="1"
+                    MaxColumns="1"
+                    VerticalOptions="End">
+                    <Button
+                        CommandParameter="{x:Reference SpencePage}"
+                        Text="查找"
+                        CornerRadius="10"
+                        Margin="0,0,0,10"
+                        VerticalOptions="End"
+                        HeightRequest="60"
+                        WidthRequest="60"/>
+                    <Button
+                        CommandParameter="{x:Reference SpencePage}"
+                        Background="#007fff"
+                        Text="过滤"
+                        CornerRadius="10"
+                        Margin="0,0,0,10"
+                        HeightRequest="60"
+                        WidthRequest="60"/>
+                    <Button
+                        x:Name="OpenPopupBtn"
+                        Clicked="OpenPopupBtn_Clicked"
+                        CommandParameter="{x:Reference SpencePage}"
+                        Background="#008000"
+                        Text="添加"
+                        CornerRadius="10"
+                        Margin="0,0,0,10"
+                        HeightRequest="60"
+                        WidthRequest="60"/>
+                </toolkit:UniformItemsLayout>
             </Grid>
         </Grid>
     </Grid>

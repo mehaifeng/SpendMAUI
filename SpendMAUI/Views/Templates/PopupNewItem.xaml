@@ -25,7 +25,6 @@
                 <RadioButton
                     x:Name="outcomeBox"
                     VerticalOptions="Center"
-                    GroupName="group"
                     IsChecked="{Binding IsCheckExpense, Mode=TwoWay}"
                     Margin="0,0,10,0"/>
                 <Label 
@@ -34,7 +33,6 @@
                 <RadioButton
                     x:Name="incomeBox"
                     VerticalOptions="Center"
-                    GroupName="group"
                     IsChecked="{Binding IsCheckInCome, Mode=TwoWay}"/>
             </HorizontalStackLayout>
             <Entry
