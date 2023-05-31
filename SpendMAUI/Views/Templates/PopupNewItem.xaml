@@ -7,8 +7,6 @@
                x:DataType="viewmodel:NoteSpendPageViewModel"
                Color="Transparent">
     <Border
-        MinimumWidthRequest="150"
-        MinimumHeightRequest="300"
         StrokeShape="RoundRectangle 5,5,5,5">
         <StackLayout
             Padding="50">
@@ -27,8 +25,8 @@
                 <RadioButton
                     x:Name="outcomeBox"
                     VerticalOptions="Center"
-                    RadioButtonGroup.GroupName="group"
-                    IsChecked="{Binding IsCheckOutCome, Mode=TwoWay}"
+                    GroupName="group"
+                    IsChecked="{Binding IsCheckExpense, Mode=TwoWay}"
                     Margin="0,0,10,0"/>
                 <Label 
                     Text="收入"
@@ -36,7 +34,7 @@
                 <RadioButton
                     x:Name="incomeBox"
                     VerticalOptions="Center"
-                    RadioButtonGroup.GroupName="group"
+                    GroupName="group"
                     IsChecked="{Binding IsCheckInCome, Mode=TwoWay}"/>
             </HorizontalStackLayout>
             <Entry

@@ -67,8 +67,8 @@
 	  <Compile Update="Views\Templates\EachInCome.xaml.cs">
 	    <DependentUpon>EachInCome.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Views\Templates\EachOutCome.xaml.cs">
-	    <DependentUpon>EachOutCome.xaml</DependentUpon>
+	  <Compile Update="Views\Templates\EachExpenseMoney.xaml.cs">
+	    <DependentUpon>EachExpenseMoney.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
@@ -86,7 +86,7 @@
 	  <MauiXaml Update="Views\Templates\EachInCome.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\Templates\EachOutCome.xaml">
+	  <MauiXaml Update="Views\Templates\EachExpenseMoney.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Templates\PopupNewItem.xaml">

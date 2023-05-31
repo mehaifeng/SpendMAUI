@@ -31,12 +31,12 @@ namespace SpendMAUI.ViewModels
             SelectDetailTypeItem = DetailType.First();
             if(RAndSItems.Count > 0)
             {
-                OutComeMoney = RAndSItems.Where(x => x.IsIncome == true).Sum(x => x.Money).ToString();
+                ExpenseMoney = RAndSItems.Where(x => x.IsIncome == true).Sum(x => x.Money).ToString();
                 InComeMoney = RAndSItems.Where(x => x.IsIncome == false).Sum(x => x.Money).ToString();
             }
             else
             {
-                OutComeMoney = "0";
+                ExpenseMoney = "0";
                 InComeMoney = "0";
             }
         }
@@ -53,7 +53,7 @@ namespace SpendMAUI.ViewModels
         /// 支出
         /// </summary>
         [ObservableProperty]
-        private string outComeMoney;
+        private string expenseMoney;
         /// <summary>
         /// 收入
         /// </summary>
@@ -78,7 +78,7 @@ namespace SpendMAUI.ViewModels
         /// 是否是支出
         /// </summary>
         [ObservableProperty]
-        private bool isCheckOutCome = true;
+        private bool isCheckExpense = true;
         /// <summary>
         /// 是否是收入
         /// </summary>
@@ -96,7 +96,7 @@ namespace SpendMAUI.ViewModels
             if(!string.IsNullOrEmpty(ReadyItem.Name) && decimal.IsPositive(ReadyItem.Money))
             {
                 //如果是支出，金额置为负数
-                if (IsCheckOutCome)
+                if (IsCheckExpense)
                 {
                     ReadyItem.Money = -ReadyItem.Money;
                 }
@@ -109,7 +109,7 @@ namespace SpendMAUI.ViewModels
                 });
                 popupNewItem.Close();
                 InComeMoney = RAndSItems.Where(x => x.IsIncome == true).Sum(x => x.Money).ToString();
-                OutComeMoney = RAndSItems.Where(x => x.IsIncome == false).Sum(x => x.Money).ToString();
+                ExpenseMoney = RAndSItems.Where(x => x.IsIncome == false).Sum(x => x.Money).ToString();
             }
         }
         #endregion

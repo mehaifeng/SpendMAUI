@@ -9,15 +9,15 @@
              x:Name="SpentPage"
              Title="收支记录">
     <ContentPage.Resources>
-        <DataTemplate x:Key="EachOutCome">
-            <templates:EachOutCome/>
+        <DataTemplate x:Key="EachExpense">
+            <templates:EachExpense/>
         </DataTemplate>
         <DataTemplate x:Key="EachInCome">
             <templates:EachInCome/>
         </DataTemplate>
         <templates:TemplatesSelector
             x:Key="TemplatesSelector"
-            EachOutCome="{StaticResource EachOutCome}"
+            EachExpense="{StaticResource EachExpense}"
             EachInCome="{StaticResource EachInCome}">
         </templates:TemplatesSelector>
     </ContentPage.Resources>
@@ -49,7 +49,7 @@
                             VerticalOptions="Center"/>
                         <Label
                             Margin="0,0,10,0"
-                            Text="{Binding OutComeMoney}"
+                            Text="{Binding ExpenseMoney}"
                             FontSize="Body"
                             VerticalOptions="Center"/>
                         <Label

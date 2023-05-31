@@ -10,11 +10,11 @@ namespace SpendMAUI.Views.Templates
 {
     public class TemplatesSelector : DataTemplateSelector
     {
-        public DataTemplate EachOutCome { get; set;}
+        public DataTemplate EachExpense { get; set;}
         public DataTemplate EachInCome { get; set; }
         protected override DataTemplate OnSelectTemplate(object item, BindableObject container)
         {
-            return (item as Item).IsIncome ? EachInCome : EachOutCome;
+            return (item as Item).IsIncome ? EachInCome : EachExpense;
         }
     }
 }
