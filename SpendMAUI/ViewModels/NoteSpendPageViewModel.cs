@@ -2,7 +2,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SpendMAUI.Models;
-using SpendMAUI.Views.Templates;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -10,6 +9,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SpendMAUI.Views.Popups;
 
 namespace SpendMAUI.ViewModels
 {
@@ -30,21 +30,16 @@ namespace SpendMAUI.ViewModels
                 "金融"
             };
             SelectDetailTypeItem = DetailType.First();
-            if(RAndSItems.Count > 0)
-            {
-                ExpenseMoney = RAndSItems.Where(x => x.IsIncome == true).Sum(x => x.Money).ToString();
-                InComeMoney = RAndSItems.Where(x => x.IsIncome == false).Sum(x => x.Money).ToString();
-            }
-            else
-            {
-                ExpenseMoney = "0";
-                InComeMoney = "0";
-            }
             string todaypath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), $"{DateTime.Now.Date:yyMMdd}.json");
             if (File.Exists(todaypath))
             {
                 string jsonStr = File.ReadAllText(todaypath);
                 RAndSItems = JsonConvert.DeserializeObject<ObservableCollection<Item>>(jsonStr);
+                IsShowNonDataImage = RAndSItems.Count > 0 ? false : true;
+            }
+            if (RAndSItems.Count > 0)
+            {
+                CaculateSum();
             }
             SelectDate = DateTime.Now.Date;
         }
@@ -66,12 +61,12 @@ namespace SpendMAUI.ViewModels
         /// 支出
         /// </summary>
         [ObservableProperty]
-        private string expenseMoney;
+        private string expenseMoney = "0";
         /// <summary>
         /// 收入
         /// </summary>
         [ObservableProperty]
-        private string inComeMoney;
+        private string inComeMoney = "0";
         /// <summary>
         /// 待添加的收支项(popup弹窗)
         /// </summary>
@@ -97,6 +92,16 @@ namespace SpendMAUI.ViewModels
         /// </summary>
         [ObservableProperty]
         private bool isCheckInCome = false;
+        /// <summary>
+        /// 收支产生的时间
+        /// </summary>
+        [ObservableProperty]
+        private string time;
+        /// <summary>
+        /// 是否展示无数据的图片
+        /// </summary>
+        [ObservableProperty]
+        private bool isShowNonDataImage;
         #endregion
 
         #region 方法
@@ -105,11 +110,11 @@ namespace SpendMAUI.ViewModels
         /// </summary>
         /// <param name="e"></param>
         [RelayCommand]
-        private async void OpenPopupToAdd(ContentPage e)
+        private void OpenPopupToAdd(ContentPage e)
         {
             ReadyItem = new Item();
             popupNewItem = new PopupNewItem();
-            await e.ShowPopupAsync(popupNewItem);
+            e.ShowPopup(popupNewItem);
         }
         /// <summary>
         /// 添加收支项
@@ -117,20 +122,29 @@ namespace SpendMAUI.ViewModels
         [RelayCommand]
         private void AddItem()
         {
-            if(!string.IsNullOrEmpty(ReadyItem.Name) && decimal.IsPositive(ReadyItem.Money))
+            if (!string.IsNullOrEmpty(ReadyItem.Name) && decimal.IsPositive(ReadyItem.Money))
             {
+                popupNewItem.Close();
                 RAndSItems.Add(new Item
                 {
                     IsIncome = IsCheckInCome,
                     Name = ReadyItem.Name,
                     Description = ReadyItem.Description,
                     Money = ReadyItem.Money,
+                    Time = DateTime.Now.ToString("HH:mm")
                 });
-                popupNewItem.Close();
-                InComeMoney = RAndSItems.Where(x => x.IsIncome == true).Sum(x => x.Money).ToString();
-                ExpenseMoney = RAndSItems.Where(x => x.IsIncome == false).Sum(x => x.Money).ToString();
+                IsShowNonDataImage = false;
+                CaculateSum();
             }
             SaveFile();
+        }
+        /// <summary>
+        /// 删除收支项
+        /// </summary>
+        [RelayCommand]
+        private void DeleteItem(Item o)
+        {
+            RAndSItems.Remove(o);
         }
         /// <summary>
         /// 选择日期操作
@@ -144,7 +158,22 @@ namespace SpendMAUI.ViewModels
             {
                 string jsonStr = await File.ReadAllTextAsync(path);
                 RAndSItems = JsonConvert.DeserializeObject<ObservableCollection<Item>>(jsonStr);
+                IsShowNonDataImage = RAndSItems.Count > 0 ? false : true;
+                CaculateSum();
             }
+            else
+            {
+                CaculateSum();
+                IsShowNonDataImage = true;
+            }
+        }
+        /// <summary>
+        /// 计算支出
+        /// </summary>
+        public void CaculateSum()
+        {
+            InComeMoney = RAndSItems.Where(x => x.IsIncome == true).Sum(x => x.Money).ToString();
+            ExpenseMoney = RAndSItems.Where(x => x.IsIncome == false).Sum(x => x.Money).ToString();
         }
         /// <summary>
         /// 记录保存到文件

@@ -3,7 +3,6 @@
              xmlns:windows="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.WindowsSpecific;assembly=Microsoft.Maui.Controls"
              xmlns:local="clr-namespace:SpendMAUI"
              x:Class= "SpendMAUI.App"
-             UserAppTheme="Light"
              windows:Application.ImageDirectory="Assets">
     <Application.Resources>
         <ResourceDictionary>
@@ -13,6 +12,31 @@
             <Color x:Key="NormalLightText">#959aa0</Color>
             <Color x:Key="TitleTextColor">White</Color>
             <Color x:Key="NormalBackgroundColor">White</Color>
+            <!--Shell & TabBar明亮模式-->
+            <Color x:Key="ShellTitleLightBackground">#ffe4c4</Color>
+            <Color x:Key="ShellLightForegroundColor">Black</Color>
+            <Color x:Key="ShellLightTitleColor">Black</Color>
+            <Color x:Key="TabBarLightBackgroundColor">#ffe4c4</Color>
+            <Color x:Key="TabBarLightForegroundColor">#512BD4</Color>
+            <Color x:Key="TabBarLightTitleColor">#512BD4</Color>
+            <Color x:Key="TabBarLightUnselectedColor">#55575c</Color>
+            <!--Shell & TabBar黑暗模式-->
+            <Color x:Key="ShellTitleDarkBackground">#002e63</Color>
+            <Color x:Key="ShellDarkForegroundColor">White</Color>
+            <Color x:Key="ShellDarkTitleColor">White</Color>
+            <Color x:Key="TabBarDarkBackgroundColor">#002e63</Color>
+            <Color x:Key="TabBarDarktForegroundColor">White</Color>
+            <Color x:Key="TabBarDarkTitleColor">White</Color>
+            <Color x:Key="TabBarDarkUnselectedColor">#a1caf1</Color>
+            <!--BodyScreen明亮模式-->
+            <Color x:Key="BodyScreenLightBackground">#ffe4c4</Color>
+            <!--BodyScreen黑暗模式-->
+            <Color x:Key="BodyScreenDarkBackground">#002e63</Color>
+            <!--Popup明亮模式-->
+            <Color x:Key="PopupLightBackground">#f5f5dc</Color>
+            <!--Popup黑暗模式-->
+            <Color x:Key="PopupDarkBacckground">#36454f</Color>
+            
             <Style TargetType="NavigationPage">
                 <Setter Property="BarBackgroundColor" Value="{StaticResource Primary}"/>
                 <Setter Property="BarTextColor" Value="White"/>
@@ -22,13 +46,13 @@
                 <Setter Property="TextColor" Value="White"/>
             </Style>
             <Style x:Key="ShellStyle" TargetType="Element">
-                <Setter Property="Shell.BackgroundColor" Value="{StaticResource Primary}" />
-                <Setter Property="Shell.TitleColor" Value="{StaticResource TitleTextColor}" />
-                <Setter Property="Shell.ForegroundColor" Value="{StaticResource TitleTextColor}" />
-                <Setter Property="Shell.TabBarBackgroundColor" Value="{StaticResource NormalBackgroundColor}" />
-                <Setter Property="Shell.TabBarForegroundColor" Value="{StaticResource Primary}" />
-                <Setter Property="Shell.TabBarTitleColor" Value="{StaticResource Primary}" />
-                <Setter Property="Shell.TabBarUnselectedColor" Value="{StaticResource NormalText}" />
+                <Setter Property="Shell.BackgroundColor" Value="{AppThemeBinding Light={StaticResource ShellTitleLightBackground}, Dark={StaticResource ShellTitleDarkBackground}}" />
+                <Setter Property="Shell.TitleColor" Value="{AppThemeBinding Light={StaticResource ShellLightTitleColor},Dark={StaticResource ShellDarkTitleColor}}" />
+                <Setter Property="Shell.ForegroundColor" Value="{AppThemeBinding Light={StaticResource ShellLightForegroundColor}, Dark={StaticResource ShellDarkForegroundColor}}" />
+                <Setter Property="Shell.TabBarBackgroundColor" Value="{AppThemeBinding Light={StaticResource TabBarLightBackgroundColor}, Dark={StaticResource TabBarDarkBackgroundColor}}" />
+                <Setter Property="Shell.TabBarForegroundColor" Value="{AppThemeBinding Light={StaticResource TabBarLightForegroundColor}, Dark={StaticResource TabBarDarktForegroundColor}}" />
+                <Setter Property="Shell.TabBarTitleColor" Value="{AppThemeBinding Light={StaticResource TabBarLightTitleColor}, Dark={StaticResource TabBarDarkTitleColor}}" />
+                <Setter Property="Shell.TabBarUnselectedColor" Value="{AppThemeBinding Light={StaticResource TabBarLightUnselectedColor},Dark={StaticResource TabBarDarkUnselectedColor}}" />
             </Style>
         </ResourceDictionary>
     </Application.Resources>

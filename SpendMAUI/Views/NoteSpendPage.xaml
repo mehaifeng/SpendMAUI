@@ -7,16 +7,55 @@
              x:DataType="viewmodel:NoteSpendPageViewModel"
              x:Class="SpendMAUI.Views.NoteSpendPage"
              x:Name="SpencePage"
-             Title="收支记录">
+             Title="收支记录"
+             BackgroundColor="{AppThemeBinding Light={StaticResource BodyScreenLightBackground},Dark={StaticResource BodyScreenDarkBackground}}">
     <ContentPage.Resources>
-        <DataTemplate x:Key="EachExpense">
-            <templates:EachExpense/>
+        <DataTemplate x:Key="EachExpense" x:Name="dataview">
+            <SwipeView x:Name="SwipeView">
+                <SwipeView.RightItems>
+                    <SwipeItemView>
+                        <Border>
+                            <Button
+                                x:Name="DeleteItemBtn"
+                                Text="删除"
+                                TextColor="White"
+                                Clicked="DeleteItemBtn_Clicked"
+                                Command="{Binding DeleteItemCommand, Source={RelativeSource Mode=TemplatedParent} }"
+                                CommandParameter="{Binding BindingContext, Source={x:Reference EachExpense}}"
+                                HeightRequest="{Binding Height, Source={x:Reference EachExpense}}"
+                                FontSize="Body"
+                                BackgroundColor="#ff2052"
+                                CornerRadius="10"/>
+                        </Border>
+                    </SwipeItemView>
+                </SwipeView.RightItems>
+                <!--支出模板-->
+                <templates:EachExpense x:Name="EachExpense"/>
+            </SwipeView>
         </DataTemplate>
         <DataTemplate x:Key="EachInCome">
-            <templates:EachInCome/>
+            <SwipeView>
+                <SwipeView.RightItems>
+                    <SwipeItemView >
+                        <Border>
+                            <Button
+                                x:Name="DeleteItemBtn"
+                                Text="删除"
+                                Clicked="DeleteItemBtn_Clicked"
+                                CommandParameter="{Binding BindingContext, Source={x:Reference EachInCome}}"
+                                TextColor="White"
+                                HeightRequest="{Binding Height, Source={x:Reference EachInCome}}"
+                                FontSize="Body"
+                                BackgroundColor="#ff2052"
+                                CornerRadius="10"/>
+                        </Border>
+                    </SwipeItemView>
+                </SwipeView.RightItems>
+                    <!--收入模板-->
+                <templates:EachInCome x:Name="EachInCome"/>
+            </SwipeView>
         </DataTemplate>
-        <templates:TemplatesSelector
-            x:Key="TemplatesSelector"
+        <templates:TemplatesSelector x:Key="TemplatesSelector"
             EachExpense="{StaticResource EachExpense}"
             EachInCome="{StaticResource EachInCome}">
         </templates:TemplatesSelector>
@@ -28,95 +67,118 @@
                 <RowDefinition Height="0.9*"/>
             </Grid.RowDefinitions>
             <!--头部-->
-            <Border
+            <Grid Grid.Row="0" Margin="5,0,5,0">
+                <Border
                 BackgroundColor="#5d8aa8"
                 StrokeShape="RoundRectangle 10,10,10,10">
-                <Grid
-                    Grid.Row="0"
-                    VerticalOptions="Center"
-                    Padding="10">
-                    <!--选择日期-->
-                    <DatePicker
-                        Date="{Binding SelectDate, Mode=TwoWay}"
-                        HorizontalOptions="Start"
+                    <Grid Grid.Row="0"
+                        ColumnSpacing="5"
                         VerticalOptions="Center">
-                        <DatePicker.Behaviors>
-                            <toolkit:EventToCommandBehavior EventName="DateSelected" Command="{Binding SelectedDateCommand}"/>
-                        </DatePicker.Behaviors>
-                    </DatePicker>
-                    <!--今日收支情况展示-->
-                    <HorizontalStackLayout HorizontalOptions="End"
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.24*"/>
+                            <ColumnDefinition Width="0.76*"/>
+                        </Grid.ColumnDefinitions>
+                        <!--选择日期-->
+                        <DatePicker
+                            Date="{Binding SelectDate, Mode=TwoWay}"
+                            HorizontalOptions="Start"
+                            VerticalOptions="Center"
+                            Background="Transparent">
+                            <DatePicker.Behaviors>
+                                <toolkit:EventToCommandBehavior EventName="DateSelected" Command="{Binding SelectedDateCommand}"/>
+                            </DatePicker.Behaviors>
+                        </DatePicker>
+                        <!--今日收支情况展示-->
+                        <HorizontalStackLayout Grid.Column="1"
+                            HorizontalOptions="End"
+                            Margin="0,0,5,0"
                             VerticalOptions="Center">
-                        <Label
+                            <Label
                             Text="支出："
                             FontSize="Body"
                             VerticalOptions="Center"/>
-                        <Label
-                            Margin="0,0,10,0"
+                            <Label
+                            Margin="0,0,5,0"
                             Text="{Binding ExpenseMoney}"
                             FontSize="Body"
                             VerticalOptions="Center"/>
-                        <Label
+                            <Label
                             Text="收入："
                             FontSize="Body"
                             VerticalOptions="Center"/>
-                        <Label
+                            <Label
                             Text="{Binding InComeMoney}"
                             FontSize="Body"
                             VerticalOptions="Center"/>
-                    </HorizontalStackLayout>
-                </Grid>
-            </Border>
+                        </HorizontalStackLayout>
+                    </Grid>
+                </Border>
+            </Grid>
             <!--信息展示-->
+            <VerticalStackLayout Grid.Row="1"
+                    BackgroundColor="Transparent"
+                    HorizontalOptions="Center"
+                    IsVisible="{Binding IsShowNonDataImage}"
+                    VerticalOptions="CenterAndExpand"
+                    Margin="0,0,40,50">
+                <Label Text="&#xe636;"
+                       TextColor="LightGray"
+                       FontSize="50"
+                       FontFamily="iconfont"
+                       Margin="0,0,0,10"
+                       HorizontalOptions="Center"/>
+                <Label 
+                    Text="当日无收支记录"
+                    TextColor="LightGray"
+                    HorizontalOptions="Center"/>
+            </VerticalStackLayout>
             <Grid
+                Grid.Row="1"
                 Padding="5"
-                VerticalOptions="StartAndExpand"
-                Grid.Row="1">
+                VerticalOptions="StartAndExpand">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.8*"/>
                     <ColumnDefinition Width="0.2*"/>
                 </Grid.ColumnDefinitions>
+                <!--左侧显示区-->
                 <CollectionView
-                    Grid.Column="0"
-                    x:Name="myCollectionView"
-                    ItemsSource="{Binding RAndSItems}"
-                    ItemTemplate="{StaticResource TemplatesSelector}"
-                    ItemsUpdatingScrollMode="KeepLastItemInView">
+                        Grid.Column="0"
+                        x:Name="myCollectionView"
+                        ItemsSource="{Binding RAndSItems, Mode=TwoWay}"
+                        ItemTemplate="{StaticResource TemplatesSelector}">
                     <CollectionView.ItemsLayout>
                         <LinearItemsLayout
-                        Orientation="Vertical" />
+                                Orientation="Vertical"/>
                     </CollectionView.ItemsLayout>
                 </CollectionView>
+                <!--右侧按钮-->
                 <toolkit:UniformItemsLayout 
+                    x:Name="UniformItemsLayout"
                     Grid.Column="1"
                     MaxColumns="1"
+                    HorizontalOptions="CenterAndExpand"
                     VerticalOptions="End">
                     <Button
                         CommandParameter="{x:Reference SpencePage}"
                         Text="查找"
+                        BackgroundColor="#008b8b"
+                        TextColor="White"
                         CornerRadius="10"
                         Margin="0,0,0,10"
                         VerticalOptions="End"
                         HeightRequest="60"
-                        WidthRequest="60"/>
-                    <Button
-                        CommandParameter="{x:Reference SpencePage}"
-                        Background="#007fff"
-                        Text="过滤"
-                        CornerRadius="10"
-                        Margin="0,0,0,10"
-                        HeightRequest="60"
-                        WidthRequest="60"/>
+                        WidthRequest="{Binding Width, Source={x:Reference UniformItemsLayout}}"/>
                     <Button
                         x:Name="OpenPopupBtn"
                         Command="{Binding OpenPopupToAddCommand}"
                         CommandParameter="{x:Reference SpencePage}"
-                        Background="#008000"
+                        Background="#8db600"
+                        TextColor="White"
                         Text="添加"
                         CornerRadius="10"
                         Margin="0,0,0,10"
                         HeightRequest="60"
-                        WidthRequest="60"/>
+                        WidthRequest="{Binding Width, Source={x:Reference UniformItemsLayout}}"/>
                 </toolkit:UniformItemsLayout>
             </Grid>
         </Grid>

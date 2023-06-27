@@ -20,6 +20,10 @@ namespace SpendMAUI.Models
         /// 收支金额
         /// </summary>
         public decimal Money { get; set; }
+        /// <summary>
+        /// 收支发生的时间
+        /// </summary>
+        public string Time { get; set; }
 
     }
 }

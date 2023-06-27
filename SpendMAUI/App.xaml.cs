@@ -18,6 +18,14 @@ namespace SpendMAUI
             // to open the corresponding page.
             //var navigationService = DependencyService.Get<INavigationService>();
             //navigationService.NavigateToAsync<LoginViewModel>(true);
+            Microsoft.Maui.Handlers.EditorHandler.Mapper.AppendToMapping(nameof(Editor), (handler, view) =>
+            {
+#if __ANDROID__
+                handler.PlatformView.SetBackgroundColor(Android.Graphics.Color.Transparent);
+#elif __IOS__
+			handler.PlatformView.BackgroundColor = UIKit.UIColor.Clear;
+#endif
+            });
         }
     }
 }

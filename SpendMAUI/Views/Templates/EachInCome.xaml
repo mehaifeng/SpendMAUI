@@ -3,10 +3,11 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
       x:Class="SpendMAUI.Views.Templates.EachInCome"
       xmlns:model="clr-namespace:SpendMAUI.Models"
-      x:DataType="model:Item">
+      x:DataType="model:Item"
+      x:Name="Grid">
     <Border
-        HeightRequest="85"
-        BackgroundColor="#03c03c">
+            HeightRequest="85"
+            BackgroundColor="#03c03c">
         <Border.StrokeShape>
             <RoundRectangle CornerRadius="10"/>
         </Border.StrokeShape>
@@ -19,7 +20,7 @@
             <Grid Grid.Row="0">
                 <Label
                     Text="{Binding Name}"
-                    FontSize="16"
+                    FontSize="20"
                     Margin="10,0,0,0"
                     VerticalOptions="CenterAndExpand"/>
                 <Label
@@ -36,7 +37,7 @@
                     Margin="10,0,0,10"
                     VerticalOptions="Center"/>
                 <Label
-                    Text="14:00"
+                    Text="{Binding Time}"
                     Margin="0,0,20,0"
                     HorizontalOptions="End"
                     VerticalOptions="Center"/>
